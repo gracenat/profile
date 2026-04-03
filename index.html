@@ -3,61 +3,82 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Grace – Portfolio</title>
+<title>Grace's Playground</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box;}
   :root{
-    --bg:#080f0a;
-    --surface:#0f1a11;
-    --card:#162019;
-    --accent:#34d399;
-    --accent2:#6baa82;
-    --text:#e8f0e9;
-    --muted:#618a6e;
-    --border:#1e3024;
+    --bg:#080f0a;--surface:#0f1a11;--card:#162019;
+    --accent:#34d399;--accent2:#6baa82;
+    --text:#e8f0e9;--muted:#618a6e;--border:#1e3024;
   }
   html{scroll-behavior:smooth;}
   body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;}
 
-  /* NAV */
-  nav{position:fixed;top:0;width:100%;z-index:100;padding:1.2rem 2rem;display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,15,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+  nav{position:fixed;top:0;width:100%;z-index:100;padding:1.2rem 2rem;display:flex;justify-content:space-between;align-items:center;background:rgba(8,15,10,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
   .logo{font-size:1.3rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
   .nav-links{display:flex;gap:2rem;}
   .nav-links a{color:var(--muted);text-decoration:none;font-size:.9rem;letter-spacing:.05em;transition:color .2s;}
   .nav-links a:hover{color:var(--accent);}
 
-  /* HERO */
   #hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem;position:relative;overflow:hidden;}
-  .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(192,132,252,.12),transparent);}
+  .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(52,211,153,.1),transparent);}
   .hero-badge{display:inline-block;padding:.35rem .9rem;border:1px solid var(--border);border-radius:999px;font-size:.8rem;color:var(--muted);margin-bottom:1.5rem;letter-spacing:.1em;}
   h1{font-size:clamp(3rem,8vw,6rem);font-weight:800;line-height:1.05;margin-bottom:1rem;}
   h1 span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
   .hero-sub{color:var(--muted);font-size:clamp(1rem,2vw,1.2rem);max-width:480px;margin-bottom:2.5rem;}
   .btn{display:inline-block;padding:.8rem 2rem;border-radius:999px;font-size:.95rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .25s;}
-  .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0a0a0f;}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#080f0a;}
   .btn-primary:hover{opacity:.85;transform:translateY(-2px);}
   .scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;}
   .arrow{width:18px;height:18px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);animation:bounce 1.5s infinite;}
   @keyframes bounce{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(5px)}}
 
-  /* SECTIONS */
   section{padding:6rem 2rem;}
   .container{max-width:800px;margin:0 auto;}
   .section-label{font-size:.78rem;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;margin-bottom:.6rem;}
   h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;margin-bottom:1.5rem;}
   .divider{width:60px;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;margin-bottom:2rem;}
 
-  /* ABOUT */
   #about{background:var(--surface);}
   .about-text{color:#c5c3d4;font-size:1.05rem;line-height:1.9;}
   .about-text p+p{margin-top:1rem;}
   .tags{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.8rem;}
   .tag{padding:.35rem .9rem;border:1px solid var(--border);border-radius:999px;font-size:.82rem;color:var(--muted);}
 
+  /* GALLERY */
+  #gallery{background:var(--bg);}
+  .masonry{columns:3;column-gap:.8rem;}
+  .masonry-item{break-inside:avoid;margin-bottom:.8rem;border-radius:10px;overflow:hidden;position:relative;cursor:pointer;}
+  .masonry-item img{width:100%;display:block;transition:transform .4s;}
+  .masonry-item:hover img{transform:scale(1.04);}
+  .masonry-item .overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,15,10,.75) 0%,transparent 55%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:.8rem;}
+  .masonry-item:hover .overlay{opacity:1;}
+  .overlay-label{color:#e8f0e9;font-size:.8rem;}
+  .overlay-count{font-size:.72rem;color:var(--accent);margin-left:.4rem;}
+  @media(max-width:600px){.masonry{columns:2;}}
+
+  /* LIGHTBOX */
+  #lightbox{display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.93);flex-direction:column;align-items:center;justify-content:center;}
+  #lightbox.open{display:flex;}
+  .lb-album-title{color:var(--accent);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.6rem;}
+  #lb-img{max-width:88vw;max-height:68vh;object-fit:contain;border-radius:10px;transition:opacity .22s;}
+  #lb-img.fade{opacity:0;}
+  #lb-caption{color:var(--muted);font-size:.85rem;margin-top:.7rem;min-height:1.2em;}
+  #lb-counter{color:var(--muted);font-size:.75rem;margin-top:.2rem;}
+  .lb-btn{position:fixed;top:50%;transform:translateY(-50%);background:rgba(15,26,17,.85);border:1px solid var(--border);color:var(--text);width:44px;height:44px;border-radius:50%;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+  .lb-btn:hover{background:var(--card);}
+  #lb-prev{left:1.2rem;}
+  #lb-next{right:1.2rem;}
+  #lb-close{position:fixed;top:1.2rem;right:1.2rem;background:rgba(15,26,17,.85);border:1px solid var(--border);color:var(--text);width:38px;height:38px;border-radius:50%;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  #lb-close:hover{background:var(--card);}
+  .lb-thumbs{display:flex;gap:.5rem;margin-top:1rem;max-width:min(88vw,560px);overflow-x:auto;padding:.3rem;scrollbar-width:none;}
+  .lb-thumbs::-webkit-scrollbar{display:none;}
+  .lb-thumb{width:52px;height:40px;object-fit:cover;border-radius:5px;cursor:pointer;opacity:.45;border:2px solid transparent;transition:opacity .2s,border-color .2s;flex-shrink:0;}
+  .lb-thumb.active{opacity:1;border-color:var(--accent);}
+
   /* GAME */
-  #game{background:var(--bg);}
+  #game{background:var(--surface);}
   .game-wrap{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;text-align:center;}
-  .game-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:gap;}
   .game-info{display:flex;gap:2rem;font-size:.9rem;color:var(--muted);}
   .game-info span b{color:var(--text);}
   #restart-btn{padding:.5rem 1.2rem;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:.85rem;transition:all .2s;}
@@ -67,31 +88,19 @@
   .card.flipped{transform:rotateY(180deg);}
   .card.matched{pointer-events:none;}
   .card-face{position:absolute;inset:0;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;backface-visibility:hidden;}
-  .card-back{background:linear-gradient(135deg,#1e1e2e,#2a2a3a);border:1px solid var(--border);}
+  .card-back{background:linear-gradient(135deg,#162019,#1e3024);border:1px solid var(--border);}
   .card-back::after{content:'✦';color:var(--border);font-size:1.2rem;}
   .card-front{background:var(--surface);border:1px solid var(--accent);transform:rotateY(180deg);}
   .card-front img{width:100%;height:100%;object-fit:cover;border-radius:9px;display:block;}
-  #win-msg{display:none;margin-top:1.5rem;padding:1rem;border-radius:10px;background:linear-gradient(135deg,rgba(192,132,252,.15),rgba(129,140,248,.15));border:1px solid var(--accent);color:var(--accent);font-weight:600;}
+  .card.matched .card-front{border-color:#4ade80;background:#0d2b1a;}
+  #win-msg{display:none;margin-top:1.5rem;padding:1rem;border-radius:10px;background:rgba(52,211,153,.1);border:1px solid var(--accent);color:var(--accent);font-weight:600;}
 
-  /* GALLERY */
-  #gallery{background:var(--surface);}
-  .masonry{columns:3;column-gap:.8rem;}
-  .masonry-item{break-inside:avoid;margin-bottom:.8rem;border-radius:10px;overflow:hidden;position:relative;cursor:pointer;}
-  .masonry-item img{width:100%;display:block;transition:transform .4s;}
-  .masonry-item:hover img{transform:scale(1.04);}
-  .masonry-item .overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,15,10,.7) 0%,transparent 50%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:.8rem;}
-  .masonry-item:hover .overlay{opacity:1;}
-  .overlay-label{color:#e8f0e9;font-size:.8rem;}
-  @media(max-width:600px){.masonry{columns:2;}}
-
-  /* CONTACT */
   #contact{background:var(--surface);text-align:center;}
   .contact-desc{color:var(--muted);margin-bottom:2rem;font-size:1.05rem;}
   .contact-links{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;}
   .contact-link{padding:.7rem 1.6rem;border-radius:999px;border:1px solid var(--border);color:var(--muted);text-decoration:none;font-size:.9rem;transition:all .2s;}
   .contact-link:hover{border-color:var(--accent);color:var(--accent);}
 
-  /* FOOTER */
   footer{padding:2rem;text-align:center;color:var(--muted);font-size:.82rem;border-top:1px solid var(--border);}
 </style>
 </head>
@@ -101,25 +110,23 @@
   <div class="logo">Grace.</div>
   <div class="nav-links">
     <a href="#about">About</a>
-    <a href="#game">Game</a>
     <a href="#gallery">Gallery</a>
+    <a href="#game">Game</a>
     <a href="#contact">Contact</a>
   </div>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
   <div class="hero-bg"></div>
   <div style="position:relative;z-index:1;">
     <div class="hero-badge">✦ Welcome to my corner of the internet</div>
     <h1>Hi, I'm <span>Grace</span></h1>
-    <p class="hero-sub">Just a person with a little space on the internet — curious, creative, and always exploring.</p>
+    <!-- <p class="hero-sub">Just someone who enjoys playing around with creativity.</p> -->
     <a href="#about" class="btn btn-primary">Get to know me</a>
   </div>
   <div class="scroll-hint"><span>scroll</span><div class="arrow"></div></div>
 </section>
 
-<!-- ABOUT -->
 <section id="about">
   <div class="container">
     <div class="section-label">About</div>
@@ -127,7 +134,7 @@
     <div class="divider"></div>
     <div class="about-text">
       <p>Hey! I'm Grace — this is my little corner of the internet where I get to be myself. I built this page as a way to have an online presence and share a bit of who I am with the world.</p>
-      <p>I'm still figuring things out (aren't we all?), but I love discovering new things, meeting interesting people, and finding joy in the small moments. Feel free to look around and say hi!</p>
+      <p>I'm still figuring things out (aren't we all?), and I enjoy traveling, trying new things, and finding joy in the small moments. Feel free to look around and say hi!</p>
     </div>
     <!-- <div class="tags">
       <span class="tag">✨ Creative</span>
@@ -139,7 +146,28 @@
   </div>
 </section>
 
-<!-- GAME -->
+<section id="gallery">
+  <div class="container" style="max-width:900px;">
+    <div class="section-label">Gallery</div>
+    <h2>Fridge Magnets</h2>
+    <div class="divider"></div>
+    <p style="color:var(--muted);margin-bottom:1.5rem;">I used to collect fridge magnets from every city I visited. Here I share them with you.</p>
+    <div class="masonry" id="masonry"></div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button id="lb-close" onclick="closeLB()">✕</button>
+  <button class="lb-btn" id="lb-prev" onclick="moveCarousel(-1)">‹</button>
+  <div class="lb-album-title" id="lb-album-title"></div>
+  <img id="lb-img" src="" alt=""/>
+  <div id="lb-caption"></div>
+  <div id="lb-counter"></div>
+  <div class="lb-thumbs" id="lb-thumbs"></div>
+  <button class="lb-btn" id="lb-next" onclick="moveCarousel(1)">›</button>
+</div>
+
 <section id="game">
   <div class="container">
     <div class="section-label">Mini Game</div>
@@ -147,7 +175,7 @@
     <div class="divider"></div>
     <p style="color:var(--muted);margin-bottom:1.5rem;">Find all matching pairs — good luck! 🃏</p>
     <div class="game-wrap">
-      <div class="game-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
         <div class="game-info">
           <span>Moves: <b id="moves">0</b></span>
           <span>Pairs: <b id="pairs">0</b>/8</span>
@@ -160,28 +188,6 @@
   </div>
 </section>
 
-<!-- GALLERY -->
-<section id="gallery">
-  <div class="container" style="max-width:900px;">
-    <div class="section-label">Gallery</div>
-    <h2>Fridge Magnets</h2>
-    <p style="color:var(--muted);margin-bottom:1.5rem;">I used to collect fridge magnets from every city I visited. Here I share them with you.</p>
-    <div class="divider"></div>
-    <div class="masonry">
-      <div class="masonry-item"><img src="https://placehold.co/600x900/162019/34d399?text=📍" alt=""/><div class="overlay"><span class="overlay-label">Somewhere beautiful</span></div></div>
-      <div class="masonry-item"><img src="https://placehold.co/600x400/0f1a11/6baa82?text=📍" alt=""/><div class="overlay"><span class="overlay-label">A city I loved</span></div></div>
-      <div class="masonry-item"><img src="https://placehold.co/600x600/162019/34d399?text=📍" alt=""/><div class="overlay"><span class="overlay-label">Hidden gem</span></div></div>
-      <div class="masonry-item"><img src="https://placehold.co/600x400/0f1a11/6baa82?text=📍" alt=""/><div class="overlay"><span class="overlay-label">Golden hour</span></div></div>
-      <div class="masonry-item"><img src="https://placehold.co/600x800/162019/34d399?text=📍" alt=""/><div class="overlay"><span class="overlay-label">Into the wild</span></div></div>
-      <div class="masonry-item"><img src="https://placehold.co/600x500/0f1a11/6baa82?text=📍" alt=""/><div class="overlay"><span class="overlay-label">Street life</span></div></div>
-      <div class="masonry-item"><img src="https://placehold.co/600x400/162019/34d399?text=📍" alt=""/><div class="overlay"><span class="overlay-label">Road less taken</span></div></div>
-      <div class="masonry-item"><img src="https://placehold.co/600x700/0f1a11/6baa82?text=📍" alt=""/><div class="overlay"><span class="overlay-label">Worth the climb</span></div></div>
-      <div class="masonry-item"><img src="https://placehold.co/600x450/162019/34d399?text=📍" alt=""/><div class="overlay"><span class="overlay-label">Just passing through</span></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
 <section id="contact">
   <div class="container">
     <div class="section-label">Contact</div>
@@ -189,76 +195,240 @@
     <div class="divider" style="margin:0 auto 1.5rem;"></div>
     <p class="contact-desc">I'd love to hear from you — whether it's a collab, a chat, or just a friendly hello.</p>
     <div class="contact-links">
-      <a href="mailto:grace@email.com" class="contact-link">✉️ Email</a>
+      <a href="mailto:grace@asia.com" class="contact-link">✉️ Email</a>
       <!-- <a href="#" class="contact-link">📸 Instagram</a>
       <a href="#" class="contact-link">💼 LinkedIn</a>
-      <a href="#" class="contact-link">🐦 Twitter / X</a>
-    </div> -->
+      <a href="#" class="contact-link">🐦 Twitter / X</a> -->
+    </div>
   </div>
 </section>
 
-<footer>Built with 💜 by Grace &nbsp;·&nbsp; 2026</footer>
+<footer>Grace &nbsp;·&nbsp; 2026</footer>
 
 <script>
-  // Replace these placeholder URLs with your own photos (8 unique images)
-  const photos = [
-    'https://placehold.co/120x120/1e1e2e/c084fc?text=📷+1',
-    'https://placehold.co/120x120/1e1e2e/c084fc?text=📷+2',
-    'https://placehold.co/120x120/1e1e2e/c084fc?text=📷+3',
-    'https://placehold.co/120x120/1e1e2e/c084fc?text=📷+4',
-    'https://placehold.co/120x120/1e1e2e/c084fc?text=📷+5',
-    'https://placehold.co/120x120/1e1e2e/c084fc?text=📷+6',
-    'https://placehold.co/120x120/1e1e2e/c084fc?text=📷+7',
-    'https://placehold.co/120x120/1e1e2e/c084fc?text=📷+8',
+  // ── ALBUMS ─────────────────────────────────────────────
+  // Each album = 1 masonry card + its own carousel photos
+  const albums = [
+    { cover:'asset/halong3.jpeg', label:'Ha Long',
+      photos:[
+        {src:'asset/halong1.jpeg',cap:'Ha Long'},
+        {src:'asset/halong2.jpeg',cap:'Ha Long'},
+        {src:'asset/halong4.jpeg',cap:'Ha Long'},
+        {src:'asset/halong5.jpeg',cap:'Ha Long'},
+        {src:'asset/halong6.jpeg',cap:'Ha Long'},
+        {src:'asset/halong7.jpeg',cap:'Ha Long'},
+        {src:'asset/halong8.jpeg',cap:'Ha Long'},
+      ]},
+    { cover:'asset/hanoi8.jpeg', label:'Ha Noi',
+      photos:[
+        {src:'asset/hanoi1.jpeg',cap:'Ha Noi'},
+        {src:'asset/hanoi2.jpeg',cap:'Ha Noi'},
+        {src:'asset/hanoi3.jpeg',cap:'Ha Noi'},
+        {src:'asset/hanoi4.jpeg',cap:'Ha Noi'},
+        {src:'asset/hanoi5.jpeg',cap:'Ha Noi'},
+        {src:'asset/hanoi6.jpeg',cap:'Ha Noi'},
+        {src:'asset/hanoi7.jpeg',cap:'Ha Noi'},
+        {src:'asset/hanoi9.jpeg',cap:'Ha Noi'},
+        {src:'asset/hanoi10.jpeg',cap:'Ha Noi'},
+        {src:'asset/hanoi11.jpeg',cap:'Ha Noi'},
+      ]},
+    { cover:'asset/ayutthaya7.jpeg', label:'Ayutthaya',
+      photos:[
+        {src:'asset/ayutthaya1.jpeg',cap:'Ayutthaya'},
+        {src:'asset/ayutthaya2.jpeg',cap:'Ayutthaya'},
+        {src:'asset/ayutthaya3.jpeg',cap:'Ayutthaya'},
+        {src:'asset/ayutthaya4.jpeg',cap:'Ayutthaya'},
+        {src:'asset/ayutthaya5.jpeg',cap:'Ayutthaya'},
+        {src:'asset/ayutthaya6.jpeg',cap:'Ayutthaya'},
+        {src:'asset/ayutthaya8.jpeg',cap:'Ayutthaya'},
+      ]},
+    { cover:'asset/melaka7.jpeg', label:'Melaka',
+      photos:[
+        {src:'asset/melaka1.jpeg',cap:'Melaka'},
+        {src:'asset/melaka2.jpeg',cap:'Melaka'},
+        {src:'asset/melaka3.jpeg',cap:'Melaka'},
+        {src:'asset/melaka4.jpeg',cap:'Melaka'},
+        {src:'asset/melaka5.jpeg',cap:'Melaka'},
+        {src:'asset/melaka6.jpeg',cap:'Melaka'},
+      ]},
+    { cover:'asset/hoian1.jpeg', label:'Hoi An',
+      photos:[
+        {src:'asset/hoian2.jpeg',cap:'Hoi An'},
+        {src:'asset/hoian3.jpeg',cap:'Hoi An'},
+        {src:'asset/hoian4.jpeg',cap:'Hoi An'},
+        {src:'asset/hoian5.jpeg',cap:'Hoi An'},
+        {src:'asset/hoian6.jpeg',cap:'Hoi An'},
+        {src:'asset/hoian7.jpeg',cap:'Hoi An'},
+        {src:'asset/hoian8.jpeg',cap:'Hoi An'},
+        {src:'asset/hoian9.jpeg',cap:'Hoi An'},
+        {src:'asset/hoian10.jpeg',cap:'Hoi An'},
+        {src:'asset/hoian11.jpeg',cap:'Hoi An'},
+      ]},
+    { cover:'asset/sapa8.jpeg', label:'Sa Pa',
+      photos:[
+        {src:'asset/sapa1.jpeg',cap:'Sa Pa'},
+        {src:'asset/sapa2.jpeg',cap:'Sa Pa'},
+        {src:'asset/sapa3.jpeg',cap:'Sa Pa'},
+        {src:'asset/sapa4.jpeg',cap:'Sa Pa'},
+        {src:'asset/sapa5.jpeg',cap:'Sa Pa'},
+        {src:'asset/sapa6.jpeg',cap:'Sa Pa'},
+        {src:'asset/sapa7.jpeg',cap:'Sa Pa'},
+        {src:'asset/sapa9.jpeg',cap:'Sa Pa'},
+        {src:'asset/sapa10.jpeg',cap:'Sa Pa'},
+        {src:'asset/sapa11.jpeg',cap:'Sa Pa'},
+      ]},
+    { cover:'asset/hue1.jpeg', label:'Hue',
+      photos:[
+        {src:'asset/hue2.jpeg',cap:'Hue'},
+        {src:'asset/hue3.jpeg',cap:'Hue'},
+        {src:'asset/hue4.jpeg',cap:'Hue'},
+        {src:'asset/hue5.jpeg',cap:'Hue'},
+        {src:'asset/hue6.jpeg',cap:'Hue'},
+        {src:'asset/hue7.jpeg',cap:'Hue'},
+        {src:'asset/hue8.jpeg',cap:'Hue'},
+        {src:'asset/hue9.jpeg',cap:'Hue'},
+        {src:'asset/hue10.jpeg',cap:'Hue'},
+        {src:'asset/hue11.jpeg',cap:'Hue'},
+        {src:'asset/hue12.jpeg',cap:'Hue'},
+      ]},
+    { cover:'asset/ninhbinh3.jpeg', label:'Ninh Binh',
+      photos:[
+        {src:'asset/ninhbinh1.jpeg',cap:'Ninh Binh'},
+        {src:'asset/ninhbinh2.jpeg',cap:'Ninh Binh'},
+        {src:'asset/ninhbinh4.jpeg',cap:'Ninh Binh'},
+        {src:'asset/ninhbinh5.jpeg',cap:'Ninh Binh'},
+        {src:'asset/ninhbinh6.jpeg',cap:'Ninh Binh'},
+        {src:'asset/ninhbinh7.jpeg',cap:'Ninh Binh'},
+        {src:'asset/ninhbinh8.jpeg',cap:'Ninh Binh'},
+        {src:'asset/ninhbinh9.jpeg',cap:'Ninh Binh'},
+      ]},
+    // { cover:'https://placehold.co/600x450/162019/34d399?text=🌅', label:'Manado',
+    //   photos:[
+    //     {src:'https://placehold.co/800x600/162019/34d399?text=MND-1',cap:'Bunaken reef'},
+    //     {src:'https://placehold.co/800x500/0f1a11/6baa82?text=MND-2',cap:'Tangkoko forest'},
+    //     {src:'https://placehold.co/800x600/162019/34d399?text=MND-3',cap:'Tomohon market'},
+    //     {src:'https://placehold.co/800x700/0f1a11/6baa82?text=MND-4',cap:'Home 🌊'},
+    //   ]},
   ];
-  let cards = [], flipped = [], matched = 0, moves = 0, lock = false;
+
+  // ── BUILD MASONRY ──────────────────────────────────────
+  const masonry = document.getElementById('masonry');
+  albums.forEach((album, i) => {
+    const item = document.createElement('div');
+    item.className = 'masonry-item';
+    item.innerHTML = `
+      <img src="${album.cover}" alt="${album.label}"/>
+      <div class="overlay">
+        <span class="overlay-label">${album.label}</span>
+        <span class="overlay-count">${album.photos.length} photos</span>
+      </div>`;
+    item.addEventListener('click', () => openLB(i, 0));
+    masonry.appendChild(item);
+  });
+
+  // ── LIGHTBOX ───────────────────────────────────────────
+  let curAlbum = 0, curIdx = 0;
+
+  function buildThumbs(){
+    const t = document.getElementById('lb-thumbs');
+    t.innerHTML = albums[curAlbum].photos.map((p,i) =>
+      `<img class="lb-thumb${i===curIdx?' active':''}" src="${p.src}" onclick="goTo(${i})" alt=""/>`
+    ).join('');
+    t.children[curIdx]?.scrollIntoView({block:'nearest',inline:'center'});
+  }
+
+  function openLB(albumIdx, photoIdx){
+    curAlbum = albumIdx; curIdx = photoIdx;
+    document.getElementById('lightbox').classList.add('open');
+    setSlide(true);
+    document.addEventListener('keydown', lbKey);
+  }
+
+  function closeLB(){
+    document.getElementById('lightbox').classList.remove('open');
+    document.removeEventListener('keydown', lbKey);
+  }
+
+  function setSlide(instant){
+    const album = albums[curAlbum];
+    const photo = album.photos[curIdx];
+    const img = document.getElementById('lb-img');
+    if(!instant) img.classList.add('fade');
+    setTimeout(() => {
+      document.getElementById('lb-album-title').textContent = album.label;
+      img.src = photo.src;
+      document.getElementById('lb-caption').textContent = photo.cap;
+      document.getElementById('lb-counter').textContent = `${curIdx+1} / ${album.photos.length}`;
+      buildThumbs();
+      img.classList.remove('fade');
+    }, instant ? 0 : 220);
+  }
+
+  function moveCarousel(dir){
+    const len = albums[curAlbum].photos.length;
+    curIdx = (curIdx + dir + len) % len;
+    setSlide(false);
+  }
+
+  function goTo(i){ curIdx = i; setSlide(false); }
+
+  function lbKey(e){
+    if(e.key==='ArrowRight') moveCarousel(1);
+    else if(e.key==='ArrowLeft') moveCarousel(-1);
+    else if(e.key==='Escape') closeLB();
+  }
+
+  document.getElementById('lightbox').addEventListener('click', e => {
+    if(e.target.id==='lightbox') closeLB();
+  });
+
+  // ── MEMORY GAME ────────────────────────────────────────
+  const gamePhotos = [
+    'asset/malaysia1.jpeg',
+    'asset/malaysia2.jpeg',
+    'asset/turkiye1.jpeg',
+    'asset/turkiye2.jpeg',
+    'asset/uzbekistan1.jpeg',
+    'asset/uzbekistan2.jpeg',
+    'asset/vietnam1.jpeg',
+    'asset/vietnam2.jpeg',
+  ];
+  let cards=[], flipped=[], matched=0, moves=0, lock=false;
 
   function shuffle(arr){return arr.sort(()=>Math.random()-.5);}
 
   function initGame(){
     const grid = document.getElementById('grid');
-    grid.innerHTML = '';
-    flipped = []; matched = 0; moves = 0; lock = false;
-    document.getElementById('moves').textContent = 0;
-    document.getElementById('pairs').textContent = 0;
-    document.getElementById('win-msg').style.display = 'none';
-
-    cards = shuffle([...photos.map((p,i)=>({src:p,id:i})),...photos.map((p,i)=>({src:p,id:i}))]).map((photo) => {
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.dataset.id = photo.id;
-      card.innerHTML = `
-        <div class="card-face card-back"></div>
-        <div class="card-face card-front"><img src="${photo.src}" alt="photo"/></div>`;
-      card.addEventListener('click', () => flip(card));
-      grid.appendChild(card);
-      return card;
+    grid.innerHTML=''; flipped=[]; matched=0; moves=0; lock=false;
+    document.getElementById('moves').textContent=0;
+    document.getElementById('pairs').textContent=0;
+    document.getElementById('win-msg').style.display='none';
+    cards = shuffle([...gamePhotos.map((p,i)=>({src:p,id:i})),...gamePhotos.map((p,i)=>({src:p,id:i}))]).map(photo=>{
+      const c = document.createElement('div');
+      c.className='card'; c.dataset.id=photo.id;
+      c.innerHTML=`<div class="card-face card-back"></div><div class="card-face card-front"><img src="${photo.src}" alt=""/></div>`;
+      c.addEventListener('click',()=>flip(c));
+      grid.appendChild(c); return c;
     });
   }
 
   function flip(card){
-    if(lock || card.classList.contains('flipped') || card.classList.contains('matched')) return;
-    card.classList.add('flipped');
-    flipped.push(card);
-    if(flipped.length === 2) check();
+    if(lock||card.classList.contains('flipped')||card.classList.contains('matched')) return;
+    card.classList.add('flipped'); flipped.push(card);
+    if(flipped.length===2) check();
   }
 
   function check(){
-    lock = true;
-    moves++;
-    document.getElementById('moves').textContent = moves;
-    const [a, b] = flipped;
-    if(a.dataset.id === b.dataset.id){
-      a.classList.add('matched'); b.classList.add('matched');
-      matched++;
-      document.getElementById('pairs').textContent = matched;
-      if(matched === 8) setTimeout(()=>{ document.getElementById('win-msg').style.display='block'; }, 400);
-      flipped = []; lock = false;
+    lock=true; moves++;
+    document.getElementById('moves').textContent=moves;
+    const [a,b]=flipped;
+    if(a.dataset.id===b.dataset.id){
+      a.classList.add('matched'); b.classList.add('matched'); matched++;
+      document.getElementById('pairs').textContent=matched;
+      if(matched===8) setTimeout(()=>{ document.getElementById('win-msg').style.display='block'; },400);
+      flipped=[]; lock=false;
     } else {
-      setTimeout(() => {
-        a.classList.remove('flipped'); b.classList.remove('flipped');
-        flipped = []; lock = false;
-      }, 900);
+      setTimeout(()=>{ a.classList.remove('flipped'); b.classList.remove('flipped'); flipped=[]; lock=false; },900);
     }
   }
 
